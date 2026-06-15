@@ -8,7 +8,6 @@ SCREEN_HEIGHT = 600
 
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Título")
 
 #Imagens do cenário
 BACKGROUND_INICIAL = pygame.image.load("cin-pixel.png")
@@ -26,6 +25,7 @@ sprite_invertido = pygame.transform.flip(FIGURA_CORRENDO, True, False)
 fonte = pygame.font.SysFont("Arial", 28)
 
 def tela_menu():
+   pygame.display.set_caption("Menu Inicial")
    while True:
 
        for evento in pygame.event.get():
@@ -45,7 +45,7 @@ def tela_menu():
        clock.tick(60)
 
 def tela_jogo1():
-  
+   pygame.display.set_caption("Tutorial")
    posicao_x = 20
    posicao_y = 480
   
