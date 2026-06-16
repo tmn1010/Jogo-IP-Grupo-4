@@ -9,10 +9,16 @@ pygame.init()
 pygame.mixer.init()
 
 class Game:
+
     def __init__(self):
+
+        #DEFINE UMA TELA
         self.screen = pygame.display.set_mode((cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
+
+        #DEFINE UM RELÓGIO
         self.clock = pygame.time.Clock()
 
+        #DEFINE UM CONTADOR
         self.contagem_frames = 0
 
         self.tela_anterior = None
@@ -30,7 +36,7 @@ class Game:
 
         self.tela_menu = pygame.transform.scale(pygame.image.load('Assets/Tela inicial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
-        self.tela_tutorial = pygame.transform.scale(pygame.image.load('Assets/Tela tutorial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
+        self.tela_tutorial = pygame.transform.scale(pygame.image.load('Assets/cin_frente.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
         self.chao = pygame.transform.scale(pygame.image.load('Assets/chao.png'), (cst.SCREEN_WIDTH, 200))
 
@@ -45,7 +51,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                         return self.TelaTutorial()
                 if event.type == pygame.QUIT:
                         pygame.quit()
