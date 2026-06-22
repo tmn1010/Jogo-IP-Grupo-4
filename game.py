@@ -1,3 +1,4 @@
+#IMPORTANDO OS MÓDULOS A SEREM UTILIZADOS
 import pygame
 import sys
 import constantes as cst
@@ -5,25 +6,34 @@ from entities import Player
 from entities import Moeda
 from entities import Espinho
 
+#INICIA O PYGAME
 pygame.init()
+
+#INICIA O MIXER DO PYGAME PARA TOCAR SONS
 pygame.mixer.init()
 
 class Game:
+
     def __init__(self):
+
+        #DEFINE A TELA E UM RELÓGIO
         self.screen = pygame.display.set_mode((cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
 
+        #DEFINE UM CONTADOR DE FRAMES QUE SERÁ UTILIZADO PARA COOLDOWN
         self.contagem_frames = 0
 
+        #DEFINE VARIÁVEIS INICIAIS
         self.tela_anterior = None
         self.tela_atual = 'menu inicial'
-
         self.estado = 'jogando'
 
+        #DEFINE UMA FONTE
         self.fonte = pygame.font.Font(None, 50)
 
+        #DEFINE UM CHÃO
         self.plataformas = [
-            pygame.Rect(0, 800, 1800, 160), #Chão
+            pygame.Rect(0, 800, 1800, 160)
         ]
 
         self.msg = pygame.transform.scale(pygame.image.load('Assets/mensagem_inicial.png'), (1500, 512))
