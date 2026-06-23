@@ -1,3 +1,4 @@
+#eu modifiquei os tamanhos para poder vizualizar melhor no meu monitor
 SCREEN_WIDTH = 1300
 SCREEN_HEIGHT = 800
 

@@ -52,7 +52,9 @@ class Player(Entidade):
         self.coracao_cheio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_cheia.png'), (64, 64))
         self.coracao_vazio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_vazia.png'), (64, 64))
         
-        
+        #todos o sprites a seguir contem a imagem de umberto
+        #cada frame pode ser verificado na pasta assents onde lá estão cada imagem 
+        #o nome das imagens já descrevem a ação que elas fazem parte
         self.idle = [pygame.transform.scale(pygame.image.load("Assets/Personagem/parado.png"), (80, 80))]
         
         self.andando = [pygame.transform.scale(pygame.image.load("Assets/Personagem/sprite_andando_0.png"), (80, 80)),
@@ -213,6 +215,9 @@ class Player(Entidade):
 
     def desenhar(self):
         
+        #linhas adicionais, pois estava dando erro de index out of range
+        #para solucionar coloquei o if que reseta a contagem de frames
+        #impedindo o erro de index out of range
         if self.contagem_frames >= len(self.animacao):
             self.contagem_frames = 0
 
