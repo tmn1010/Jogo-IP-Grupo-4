@@ -38,7 +38,7 @@ class Game:
 
         self.msg = pygame.transform.scale(pygame.image.load('Assets/mensagem_inicial.png'), (1500, 512))
 
-        self.tela_menu = pygame.transform.scale(pygame.image.load('Assets/Tela inicial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
+        self.tela_menu = pygame.transform.scale(pygame.image.load('Assets/teste.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
         self.tela_tutorial = pygame.transform.scale(pygame.image.load('Assets/Tela tutorial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
@@ -48,7 +48,6 @@ class Game:
 
         while True:
             self.screen.blit(self.tela_menu, (0, 0))
-            self.screen.blit(self.msg, (150, 500))
             pygame.display.update()
 
             self.clock.tick(20)
