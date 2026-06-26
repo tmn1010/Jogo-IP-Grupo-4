@@ -36,13 +36,13 @@ class Game:
             pygame.Rect(0, 700, 1800, 160)
         ]
 
-        self.msg = pygame.transform.scale(pygame.image.load('Jogo-IP-Grupo-4/Assets/mensagem_inicial.png'), (1500, 512))
+        self.msg = pygame.transform.scale(pygame.image.load('Assets/mensagem_inicial.png'), (1500, 512))
 
-        self.tela_menu = pygame.transform.scale(pygame.image.load('Jogo-IP-Grupo-4/Assets/Tela inicial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
+        self.tela_menu = pygame.transform.scale(pygame.image.load('Assets/Tela inicial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
-        self.tela_tutorial = pygame.transform.scale(pygame.image.load('Jogo-IP-Grupo-4/Assets/Tela tutorial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
+        self.tela_tutorial = pygame.transform.scale(pygame.image.load('Assets/Tela tutorial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
-        self.chao = pygame.transform.scale(pygame.image.load('Jogo-IP-Grupo-4/Assets/chao.png'), (cst.SCREEN_WIDTH, 200))
+        self.chao = pygame.transform.scale(pygame.image.load('Assets/chao.png'), (cst.SCREEN_WIDTH, 200))
 
     def MenuInicial(self):
 
