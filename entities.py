@@ -95,6 +95,7 @@ class Player(Entidade):
                 self.pulo = cst.BUFFERPULO
                 self.state = 'pulo duplo'
 
+            #EVENTO DE DAR DASH
             if event.key == pygame.K_p and self.cooldown_dash == 0:
                 self.time_dash = cst.TEMPODASH
                 self.cooldown_dash = cst.COOLDOWN_DASH
@@ -152,8 +153,12 @@ class Player(Entidade):
 
     def movimento(self):
 
-        if self.cooldown_dash > 0:
-            self.cooldown_dash -= 1
+        #REINICIA O DASH RAPIDO PORÉM APENAS NO CHÃO
+        if (self.cooldown_dash > 0 and self.no_chao):
+            self.cooldown_dash -= 7
+
+            if (self.cooldown_dash < 0):
+                self.cooldown_dash = 0
 
         self.y_anterior = self.pos[1]
 
