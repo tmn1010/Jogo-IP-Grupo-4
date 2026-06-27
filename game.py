@@ -42,8 +42,14 @@ class Game:
         #IMAGEM DO TUTORIAL
         self.tela_tutorial = pygame.transform.scale(pygame.image.load('Assets/Cenários/Tela-Tutorial.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
 
-        #IMAGEM DO CHÃO
+        #SPRITE DO CHÃO
         self.chao = pygame.transform.scale(pygame.image.load('Assets/Ambiente/chao.png'), (cst.SCREEN_WIDTH, 200))
+
+        #SPRITE DA CATRACA
+        self.catraca = pygame.transform.scale(pygame.image.load('Assets/Ambiente/catraca1.png'), (150, 150))
+
+        #SPRITE DO CRACHÁ
+        self.cracha = pygame.transform.scale(pygame.image.load('Assets/Coletáveis/cracha.png'), (90, 90))
 
     #ORDEM PARA ESCREVER OS CENÁRIOS
     #1: Desenhar o cenário e o chão (se tiver plataformas é só botar la na lista do self.plataformas pra adicionar as colisões delas) e quando forem checar a
@@ -79,7 +85,11 @@ class Game:
     def TelaTutorial(self):
 
         #OBJETO DE COLISÃO PARA A PRÓXIMA FASE
-        transicao_1_2 = pygame.Rect(1150, 600, 50, 200)
+        transicao_1_2 = pygame.Rect(1100, 560, 150, 150)
+
+        #OBJETO DO CRACHÁ
+        cracha_obj = pygame.Rect(950, 580, 90, 90)
+        cracha_coletado = False
 
         #DEFINE O OBJETO DO PLAYER
         player = Player((100, 510), self.screen, 3)
@@ -93,10 +103,14 @@ class Game:
             self.screen.blit(self.tela_tutorial, (0, 0))
 
             #DESENHA O OBJETO DE COLISÃO
-            pygame.draw.rect(self.screen, cst.AMARELO, transicao_1_2)
+            self.screen.blit(self.catraca, (1100, 560))
 
             #DESENHA O CHÃO
             self.screen.blit(self.chao, (0, 710))
+
+            #DESENHA O CRACHÁ CASO ELE NÃO TENHA SIDO COLETADO
+            if (cracha_coletado == False):
+                self.screen.blit(self.cracha, (950, 580))
 
             #VERIFICA EVENTOS
             for event in pygame.event.get():
@@ -127,8 +141,14 @@ class Game:
                     if (player.colisao.colliderect(transicao_1_2)):
 
                         if (event.type == pygame.KEYDOWN):
-                            if (event.key == pygame.K_c):
+
+                            #AVANÇA PARA A PRÓXIMA FASE CASO PASSE O CRACHÁ NA CATRACA
+                            if (event.key == pygame.K_c) and (cracha_coletado == True):
                                 return self.CorredorInfinito()
+                            
+                    #COLISÃO COM O CRACHÁ:
+                    if (player.colisao.colliderect(cracha_obj)):
+                        cracha_coletado = True
 
                     player.processar_evento(event)
 

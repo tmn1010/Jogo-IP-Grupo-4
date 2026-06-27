@@ -50,8 +50,10 @@ class Player(Entidade):
 
         self.som_dano = pygame.mixer.Sound('Assets/Sons/tomou_dano.wav')
 
-        self.coracao_cheio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_cheia.png'), (64, 64))
-        self.coracao_vazio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_vazia.png'), (64, 64))
+        self.coracao_cheio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_3-3.png'), (500, 170))
+        self.coracao_2_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_2-3.png'), (500, 170))
+        self.coracao_1_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_1-3.png'), (500, 170))
+        self.coracao_vazio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_0-3.png'), (500, 170))
         
         #DEFINIÇÃO DOS SPRITES DO PERSONAGEM
         self.idle = [pygame.transform.scale(pygame.image.load("Assets/Personagem/parado.png"), (100, 180))]
@@ -204,30 +206,24 @@ class Player(Entidade):
         self.colisao.y = self.pos[1]
 
     def atacar(self):
+
+        #DEFINE A COLISÃO DO ATAQUE PARA A DIREITA
         if self.andando_direita:
             self.hitbox_atq = pygame.Rect(self.pos[0] + 40, self.pos[1], 50, 64)
-            pygame.draw.rect(self.screen, cst.AMARELO, self.hitbox_atq)
+
+        #DEFINE A COLISÃO DO ATAQUE PARA A ESQUERDA
         else:
             self.hitbox_atq = pygame.Rect(self.pos[0] - 35, self.pos[1], 50, 64)
-            pygame.draw.rect(self.screen, cst.AMARELO, self.hitbox_atq)
 
     def atualizar_vida(self):
         if self.vida == 3:
             self.screen.blit(self.coracao_cheio, (15, 15))
-            self.screen.blit(self.coracao_cheio, (45, 15))
-            self.screen.blit(self.coracao_cheio, (75, 15))
         elif self.vida == 2:
-            self.screen.blit(self.coracao_cheio, (15, 15))
-            self.screen.blit(self.coracao_cheio, (45, 15))
-            self.screen.blit(self.coracao_vazio, (75, 15))
+            self.screen.blit(self.coracao_2_3, (15, 15))
         elif self.vida == 1:
-            self.screen.blit(self.coracao_cheio, (15, 15))
-            self.screen.blit(self.coracao_vazio, (45, 15))
-            self.screen.blit(self.coracao_vazio, (75, 15))
+            self.screen.blit(self.coracao_1_3, (15, 15))
         else:
             self.screen.blit(self.coracao_vazio, (15, 15))
-            self.screen.blit(self.coracao_vazio, (45, 15))
-            self.screen.blit(self.coracao_vazio, (75, 15))
 
     def desenhar(self):
         
