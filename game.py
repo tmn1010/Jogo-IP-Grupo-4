@@ -4,8 +4,6 @@ from pygame.locals import *
 import sys
 import constantes as cst
 from entities import Player
-from entities import Moeda
-from entities import Espinho
 
 #INICIA O PYGAME
 pygame.init()
@@ -55,6 +53,8 @@ class Game:
         self.plataformas = [
             pygame.Rect(0, 700, 1800, 160)
         ]
+
+        self.tela_x = None
 
         #IMAGEM DO MENU
         self.tela_menu = pygame.transform.scale(pygame.image.load('Assets/Cenários/Tela-menu.png'), (cst.SCREEN_WIDTH, cst.SCREEN_HEIGHT))
@@ -324,60 +324,15 @@ class Game:
 
         #DEFINE O OBJETO DO PLAYER
         player = Player((50, 510), self.screen, 3)
+        pygame.display.set_caption(f'Cooldown Dash: {player.cooldown_dash}')
 
         #OBJETO E VARIAVEL NECESSÁRIO PARA REALIZAR O PARALAX
         obj_paralax = pygame.Rect(650, 0, 1, 900)
         paralax = False
 
-        tela_x = 0
+        self.tela_x = 0
 
         while True:
-
-            self.screen.fill((0,0,0))
-
-            #DESENHA NA TELA O CENÁRIO
-            self.screen.blit(self.tela_corredor_infinito, (tela_x, 0))
-
-            #DESENHA O CHÃO
-            self.screen.blit(self.chao2, (tela_x, 710))
- 
-            #DESATIVA O PARALAX NO INÍCIO
-            if (tela_x >= 0 and paralax == True):
-                paralax = False
-                tela_x = 0
-                player.semparalax(-8)
-
-            #ATIVA O PARALAX NO INÍCIO
-            if (player.colisao.right == obj_paralax.left):
-                paralax = True
-                player.emparalax()
-
-            #DESAATIVA O PARALAX NO FIM DA TELA
-            if (tela_x <= -5823 and paralax == True):
-                paralax = False
-                tela_x = -5823
-                player.semparalax(+8)
-
-            #ATIVA O PARALAX NO FIM DA TELA
-            if (player.colisao.colliderect(obj_paralax)):
-                paralax = True
-                player.emparalax()
-
-            #PARALAX PARA A DIREITA
-            if (pygame.key.get_pressed()[K_d] and paralax == True):
-                
-                tela_x -= 8
-
-                if pygame.key.get_pressed()[K_p]:
-                    tela_x -= 25
-
-            #PARALAX PARA A ESQUERDA
-            if (pygame.key.get_pressed()[K_a] and paralax == True):
-                
-                tela_x += 8
-
-                if pygame.key.get_pressed()[K_p]:
-                    tela_x += 25
 
             #VERIFICA EVENTOS
             for event in pygame.event.get():
@@ -405,6 +360,52 @@ class Game:
                 elif self.estado == 'jogando':
 
                     player.processar_evento(event)
+
+            self.screen.fill((0,0,0))
+
+            #DESENHA NA TELA O CENÁRIO
+            self.screen.blit(self.tela_corredor_infinito, (self.tela_x, 0))
+
+            #DESENHA O CHÃO
+            self.screen.blit(self.chao2, (self.tela_x, 710))
+
+            #DESATIVA O PARALAX NO INÍCIO
+            if (self.tela_x >= 0 and paralax == True):
+                paralax = False
+                self.tela_x = 0
+                player.semparalax(-8)
+
+            #ATIVA O PARALAX NO INÍCIO
+            if (player.colisao.right == obj_paralax.left):
+                paralax = True
+                player.emparalax()
+
+            #DESAATIVA O PARALAX NO FIM DA TELA
+            if (self.tela_x <= -5823 and paralax == True):
+                paralax = False
+                self.tela_x = -5823
+                player.semparalax(+8)
+
+            #ATIVA O PARALAX NO FIM DA TELA
+            if (player.colisao.colliderect(obj_paralax)):
+                paralax = True
+                player.emparalax()
+
+            #PARALAX PARA A DIREITA
+            if (pygame.key.get_pressed()[K_d] and paralax == True):
+                
+                self.tela_x -= 8
+
+                if player.state == 'dash':
+                    self.tela_x -= 25
+
+            #PARALAX PARA A ESQUERDA
+            if (pygame.key.get_pressed()[K_a] and paralax == True):
+                
+                self.tela_x += 8
+                
+                if player.state == 'dash':
+                    self.tela_x += 25
 
             #ATUALIZA A ANIMAÇÃO CONFORME O EVENTO
             if self.estado == 'jogando':

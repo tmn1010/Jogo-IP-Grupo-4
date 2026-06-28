@@ -264,45 +264,8 @@ class Player(Entidade):
         cst.VELDASH = self.dash_antes_paralax
         self.pos[0] += empulso
 
-class Moeda(Entidade):
-    def __init__(self, pos, screen):
+class Inimigo1(Entidade):
+    def __init__(self, pos, screen, vida):
         super().__init__(pos)
         self.screen = screen
-
-        self.som_moeda = pygame.mixer.Sound('Assets/Sons/som_moeda.wav')
-
-        self.colisao = pygame.Rect(pos[0], pos[1], 25, 25)
-
-        self.animacao = [
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_00.png').convert_alpha(), (64, 64)),
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_01.png').convert_alpha(), (64, 64)),
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_02.png').convert_alpha(), (64, 64)),
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_03.png').convert_alpha(), (64, 64)),
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_04.png').convert_alpha(), (64, 64)),
-            pygame.transform.scale(pygame.image.load('Assets/Coletáveis/moeda_05.png').convert_alpha(), (64, 64))
-        ]
-
-        self.contagem_frames = 0
-    
-    def desenhar(self):
-
-        self.contagem_frames += 0.1
-
-        if self.contagem_frames >= len(self.animacao):
-            self.contagem_frames = 0
-
-        frame = self.animacao[int(self.contagem_frames)]
-
-        self.screen.blit(frame, self.pos)
-
-class Espinho(Entidade):
-    def __init__(self, pos, screen):
-        super().__init__(pos)
-
-        self.screen = screen
-
-        self.colisao = pygame.Rect(pos[0], pos[1] - 32, 30, 30)
-
-    def desenhar(self):
-        self.imagem = pygame.image.load('Assets/Ambiente/espinho.png')
-        self.screen.blit(self.imagem, (self.pos[0], self.pos[1] - 32))
+        self.vida = vida
