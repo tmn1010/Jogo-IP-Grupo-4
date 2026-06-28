@@ -33,7 +33,10 @@ class Game:
         self.contagem_frames_seta = 0
 
         #DEFINE UM CONTADOR DE FRAMES QUE SERÁ UTILIZADO PARA FAZER AS ANIMAÇÕES DO CRACHA
-        self.contagem_frames_cracha = 0 
+        self.contagem_frames_cracha = 0
+
+        #DEFINE UM CONTADOR DE FRAMES QUE SERÁ UTILIZADO PARA FAZER AS ANIMAÇÕES DE STEFAN
+        self.contagem_frames_stefan = 0 
 
         self.som_catraca_girando = pygame.mixer.Sound('Assets/Sons/som_catraca_girando.wav')
         self.som_pegou_cracha = pygame.mixer.Sound('Assets/Sons/som_pegou_cracha.wav')
@@ -106,6 +109,7 @@ class Game:
 
     def TelaTutorial(self):
 
+        #DEFINE OS SPRITES QUE SERÃO UTILIZADOS NAS ANIMAÇÕES
         animacoes_botao_C = [
             pygame.transform.scale(pygame.image.load('Assets/Sprite_botoes/botao_C_00.png'), (128, 128)),
             pygame.transform.scale(pygame.image.load('Assets/Sprite_botoes/botao_C_01.png'), (128, 128)),
@@ -130,6 +134,11 @@ class Game:
             pygame.transform.scale(pygame.image.load('Assets/Tutorial/seta_baixo_04.png'), (200, 200)),
             pygame.transform.scale(pygame.image.load('Assets/Tutorial/seta_baixo_05.png'), (200, 200))
             ]
+        
+        cabeca_stefan = [
+            pygame.transform.scale(pygame.image.load('Assets/Tutorial/stefan1.png'), (140, 140)),
+            pygame.transform.scale(pygame.image.load('Assets/Tutorial/stefan2.png'), (140, 140))
+        ]
 
         #OBJETO DE COLISÃO PARA A PRÓXIMA FASE
         transicao_1_2 = pygame.Rect(1100, 560, 150, 150)
@@ -192,18 +201,51 @@ class Game:
                                 return self.CorredorInfinito()
 
                     player.processar_evento(event)
-            
+
+            #SOMADOR QUE FAZ A ANIMAÇÃO DE STEFAN
+            self.contagem_frames_stefan += 0.1
+
+            #FAZ UM LOOP NOS SPRITES DA CABEÇA DE STEFAN
+            if self.contagem_frames_stefan >= len(cabeca_stefan):
+                self.contagem_frames_stefan = 0
+
+            #INICIA AS MENSAGENS DO TUTORIAL
             if self.contagem_tutorial > 2 and self.contagem_tutorial < 6:
+                
+                #SOMADOR QUE FAZ A ANIMAÇÃO DA SETA
                 self.contagem_frames_seta += 0.2
+
+                #FAZ UM LOOP NOS SPRITES DA SETA
                 if self.contagem_frames_seta >= len(seta_baixo):
                     self.contagem_frames_seta = 0
 
+                #DESENHA A CABEÇA DE STEFAN
+                self.screen.blit(cabeca_stefan[int(self.contagem_frames_stefan)], (190, 150))
+
+                #DESENHA A PRIMEIRA MENSAGEM
                 self.screen.blit(mensagens_tutorial[0], (350, 35))
+
+                #DESENHA A SETA
                 self.screen.blit(seta_baixo[int(self.contagem_frames_seta)], (player.pos[0] - 45, player.pos[1] - 130))
+
+            #SEGUNDA MENSAGEM
             if self.contagem_tutorial > 6 and self.contagem_tutorial < 12:
+
+                #DESENHA A CABEÇA DE STEFAN
+                self.screen.blit(cabeca_stefan[int(self.contagem_frames_stefan)], (190, 150))
+
                 self.screen.blit(mensagens_tutorial[1], (350, 35))
+
+            #TERCEIRA MENSAGEM
             if self.contagem_tutorial > 12 and self.contagem_tutorial < 18:
+
+                #DESENHA A CABEÇA DE STEFAN
+                self.screen.blit(cabeca_stefan[int(self.contagem_frames_stefan)], (190, 150))
+
+            
                 self.screen.blit(mensagens_tutorial[2], (350, 35))
+
+            #CRIAR O CRACHÁ QUANDO AS MENSAGENS DE TUTORIAL NÃO ACABAREM
             if self.contagem_tutorial > 18 and cracha_coletado == False:
                 cracha_obj = pygame.Rect(950, 580, 90, 90)
 
@@ -217,6 +259,9 @@ class Game:
                 self.contagem_frames_seta += 0.2
                 if self.contagem_frames_seta >= len(seta_baixo):
                     self.contagem_frames_seta = 0
+
+                #DESENHA A CABEÇA DE STEFAN
+                self.screen.blit(cabeca_stefan[int(self.contagem_frames_stefan)], (190, 150))
 
                 self.screen.blit(mensagens_tutorial[3], (350, 35))
                 self.screen.blit(seta_baixo[int(self.contagem_frames_seta)], (cracha_obj.x - 50, cracha_obj.y - 110))
