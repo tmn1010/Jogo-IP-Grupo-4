@@ -398,7 +398,7 @@ class Game:
 
                 self.tela_x -= 8
 
-            if player.state == 'dash' and player.andando_direita:
+            if player.state == 'dash' and player.andando_direita and paralax == True:
                 self.tela_x -= 25
 
             #PARALAX PARA A ESQUERDA
@@ -406,7 +406,7 @@ class Game:
                 
                 self.tela_x += 8
 
-            if player.state == 'dash' and not player.andando_direita:
+            if player.state == 'dash' and not player.andando_direita and paralax == True:
                 self.tela_x += 25
 
             #ATUALIZA A ANIMAÇÃO CONFORME O EVENTO
