@@ -117,6 +117,9 @@ class Player(Entidade):
         if self.cooldown_atq > 0:
             self.state = 'atacando'
         else:
+
+            self.hitbox_atq = None #Destrói a hitbox quando acaba o ataque
+
             if self.state != 'atacando':
                 self.state_antes = self.state
             self.state = self.state_antes
@@ -209,14 +212,17 @@ class Player(Entidade):
         self.colisao.y = self.pos[1]
 
     def atacar(self):
+        #Desce a hitbox (em relação à cabeça) em 60 pixels para ir para o braço
+        altura_soco = self.pos[1] + 30
 
         #DEFINE A COLISÃO DO ATAQUE PARA A DIREITA
         if self.andando_direita:
-            self.hitbox_atq = pygame.Rect(self.pos[0] + 40, self.pos[1], 50, 64)
+            self.hitbox_atq = pygame.Rect(self.pos[0] + 160, altura_soco, 50, 64)
 
         #DEFINE A COLISÃO DO ATAQUE PARA A ESQUERDA
         else:
-            self.hitbox_atq = pygame.Rect(self.pos[0] - 35, self.pos[1], 50, 64)
+            #Empurra a hitbox mais para a esquerda para acompanhar o soco
+            self.hitbox_atq = pygame.Rect(self.pos[0] - 110, altura_soco, 50, 64)
 
     def atualizar_vida(self):
         if self.vida == 3:
@@ -229,7 +235,7 @@ class Player(Entidade):
             self.screen.blit(self.coracao_vazio, (15, 15))
 
     def desenhar(self):
-        
+
         #linhas adicionais, pois estava dando erro de index out of range
         #para solucionar coloquei o if que reseta a contagem de frames
         #impedindo o erro de index out of range
@@ -239,7 +245,6 @@ class Player(Entidade):
         frame = self.animacao[int(self.contagem_frames)]
 
         if self.invulnerabilidade > 0:
-
             if (self.invulnerabilidade // 5) % 2 == 0:
                 frame.set_alpha(100)
             else:
@@ -247,10 +252,22 @@ class Player(Entidade):
         else:
             frame.set_alpha(255)
 
+        #variável para armazenar a posição onde a imagem será desenhada
+        pos_desenho = list(self.pos)
+
         if not self.andando_direita:
             frame = pygame.transform.flip(frame, True, False)
+            
+            #Move o sprite do soco 100 pixels para a frente, pq o sprite do soco é 100 pixels maior que o do idle, e quando dava flip eles tavam ficando no mesmo lugar
+            if self.state == 'atacando':
+                pos_desenho[0] = pos_desenho[0] - 100
 
-        self.screen.blit(frame, self.pos)
+        #Usa pos_desenho para renderizar o personagem
+        self.screen.blit(frame, pos_desenho)
+        
+        #testar a hitbox
+        if self.hitbox_atq is not None:
+            pygame.draw.rect(self.screen, (255, 0, 0), self.hitbox_atq, 2)
 
     def emparalax(self):
 
