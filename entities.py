@@ -16,10 +16,11 @@ class Entidade:
 
 class Player(Entidade):
 
-    def __init__(self, pos, screen, vida):
+    def __init__(self, pos, screen, vida, especial):
         super().__init__(pos)
 
         self.vida = vida
+        self.especial = especial
         self.invulnerabilidade = 0
 
         self.screen = screen
@@ -57,6 +58,11 @@ class Player(Entidade):
         self.coracao_2_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_2-3.png'), (500, 170))
         self.coracao_1_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_1-3.png'), (500, 170))
         self.coracao_vazio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_0-3.png'), (500, 170))
+
+        self.especial_vazio = pygame.transform.scale(pygame.image.load('Assets/Personagem/especial_apagado.png'), (300, 120))
+        self.especial_1_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/especial_vermelho.png'), (300, 120))
+        self.especial_2_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/especial_amarelo.png'), (300, 120))
+        self.especial_cheio = pygame.transform.scale(pygame.image.load('Assets/Personagem/especial_verde.png'), (300, 120))
         
         #DEFINIÇÃO DOS SPRITES DO PERSONAGEM
         self.idle = [pygame.transform.scale(pygame.image.load("Assets/Personagem/parado.png"), (100, 180))]
@@ -227,6 +233,16 @@ class Player(Entidade):
             self.screen.blit(self.coracao_1_3, (15, 15))
         else:
             self.screen.blit(self.coracao_vazio, (15, 15))
+
+    def atualizar_especial(self):
+        if self.especial == 0:
+            self.screen.blit(self.especial_vazio, (35, 150))
+        elif self.especial == 1:
+            self.screen.blit(self.especial_1_3, (35, 150))
+        elif self.especial == 2:
+            self.screen.blit(self.especial_2_3, (35, 150))
+        elif self.especial == 3:
+            self.screen.blit(self.especial_cheio, (35, 150))
 
     def desenhar(self):
         
