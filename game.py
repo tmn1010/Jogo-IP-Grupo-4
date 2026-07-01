@@ -22,7 +22,7 @@ class Game:
 
         #DEFINE SONS
         self.som_catraca_girando = pygame.mixer.Sound('Assets/Sons/som_catraca_girando.wav')
-        self.som_pegou_coletavel = pygame.mixer.Sound('Assets/Sons/som_pegou_coletavel.wav')
+        self.som_pegou_coletavel = pygame.mixer.Sound('Assets/Sons/som_pegou_coletável.wav')
         self.som_pegou_coletavel.set_volume(0.3)
 
         #DEFINE VARIÁVEIS INICIAIS

@@ -313,6 +313,18 @@ class Inimigo_Corpo_a_Corpo(Entidade):
         self.invulnerabilidade = 0
         self.y_anterior = self.pos[1]
 
+        self.index_animacao = 0
+        self.contador_tempo = 0
+        
+        self.andando = [pygame.transform.flip(pygame.transform.scale(pygame.image.load("Assets/Inimigo/inimigo-andando00.png").convert_alpha(), (200, 200)), True, False),
+                        pygame.transform.flip(pygame.transform.scale(pygame.image.load("Assets/Inimigo/inimigo-andando01.png").convert_alpha(), (200, 200)), True, False),
+                        pygame.transform.flip(pygame.transform.scale(pygame.image.load("Assets/Inimigo/inimigo-andando02.png").convert_alpha(), (200, 200)), True, False),
+                        pygame.transform.flip(pygame.transform.scale(pygame.image.load("Assets/Inimigo/inimigo-andando03.png").convert_alpha(), (200, 200)), True, False)]
+        
+        self.ataque = [
+            pygame.transform.scale(pygame.image.load("Assets/Inimigo/inimigo-atacando.png").convert_alpha(), (200, 200))
+        ]
+
     def atualizar(self, player, plataformas):
         # Se a vida for 0, ele morre e não faz mais nada
         if self.vida <= 0:
@@ -364,9 +376,19 @@ class Inimigo_Corpo_a_Corpo(Entidade):
                 if self != 'player' and self.invulnerabilidade == 0:
                     cst.VEL_INIMIGO = 3
 
+                self.contador_tempo += 1
+
+                if self.contador_tempo >= 10: 
+                    self.contador_tempo = 0
+                    self.index_animacao = (self.index_animacao + 1) % len(self.andando)
+
+                imagem_atual = self.andando[self.index_animacao]
+
+                self.screen.blit(imagem_atual, (self.pos[0], self.pos[1]))
+                
                 # Desenha o quadrado vermelho descendo até ao mesmo nível visual do player
-                retangulo_visual = pygame.Rect(self.pos[0], self.pos[1], 160, 180)
-                pygame.draw.rect(self.screen, (255, 0, 0), retangulo_visual)
+                #retangulo_visual = pygame.Rect(self.pos[0], self.pos[1], 160, 180)
+                #pygame.draw.rect(self.screen, (255, 0, 0), retangulo_visual)
 
             # Lógica da Barra de Vida Flutuante
             indice_sprite = 3 - self.vida
