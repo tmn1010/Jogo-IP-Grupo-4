@@ -23,8 +23,9 @@ class Game:
         #DEFINE SONS
         self.som_catraca_girando = pygame.mixer.Sound('Assets/Sons/som_catraca_girando.wav')
         self.som_pegou_coletavel = pygame.mixer.Sound('Assets/Sons/som_pegou_coletável.wav')
-        self.som_pegou_coletavel.set_volume(0.3)
-        self.som_moeda = pygame.mixer.Sound('Assets/Sons/som_moeda.wav')
+        self.som_pegou_coletavel.set_volume(10.0)
+        self.ost_principal = pygame.mixer.music.load('Assets/Sons/ostprincipal.mp3')
+        pygame.mixer.music.play(-1)
 
         #DEFINE VARIÁVEIS INICIAIS
         self.tela_anterior = None
@@ -158,8 +159,6 @@ class Game:
     def MenuInicial(self):
 
         while True:
-
-            return self.CorredorInfinito(0)
 
             #DESENHA A TELA DO MENU
             self.screen.blit(self.tela_menu, (0, 0))

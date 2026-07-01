@@ -359,7 +359,7 @@ class Inimigo_Corpo_a_Corpo(Entidade):
             self.direita = True
 
             #TEMPORIZADOR QUE PARA O INIMIGO QUANDO ELE TOMA DANO
-            if (self.tomoudano == True) or (self.atacou == True) and (self.cooldown > 0):
+            if ((self.tomoudano == True) or (self.atacou == True)) and (self.cooldown > 0):
                 self.vel_x = 0
                 self.cooldown -= 10
 
@@ -369,11 +369,12 @@ class Inimigo_Corpo_a_Corpo(Entidade):
                 self.cooldown = 100
 
         elif self.pos[0] > player.pos[0]:
+            
             self.vel_x = -cst.VEL_INIMIGO
             self.direita = False
 
             #TEMPORIZADOR QUE PARA O INIMIGO QUANDO ELE TOMA DANO
-            if (self.tomoudano == True) or (self.atacou == True) and (self.cooldown > 0):
+            if ((self.tomoudano == True) or (self.atacou == True)) and (self.cooldown > 0):
                 self.vel_x = 0
                 self.cooldown -= 10
 
