@@ -142,10 +142,10 @@ class Game:
 
         #DEFINE OS SPRITES QUE SERÃO UTILIZADOS NAS ANIMAÇÕES
         mensagens_tutorial = [
-            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_00.png'), (700, 256)),
-            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_01.png'), (700, 256)),
-            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_02.png'), (700, 256)),
-            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_03.png'), (700, 256))
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_00.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_01.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_02.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/tutorial_03.png'), (700, 210))
         ]
 
         #SPRITE DA CATRACA
@@ -231,7 +231,7 @@ class Game:
                     self.contagem_frames_seta = 0
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 #DESENHA A PRIMEIRA MENSAGEM
                 self.screen.blit(mensagens_tutorial[0], (350, 35))
@@ -243,7 +243,7 @@ class Game:
             if self.contagem_tutorial > 6 and self.contagem_tutorial < 12:
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 self.screen.blit(mensagens_tutorial[1], (350, 35))
 
@@ -251,7 +251,7 @@ class Game:
             if self.contagem_tutorial > 12 and self.contagem_tutorial < 18:
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
             
                 self.screen.blit(mensagens_tutorial[2], (350, 35))
@@ -272,7 +272,7 @@ class Game:
                     self.contagem_frames_seta = 0
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 self.screen.blit(mensagens_tutorial[3], (350, 35))
                 self.screen.blit(self.seta_baixo[int(self.contagem_frames_seta)], (cracha_obj.x - 50, cracha_obj.y - 110))
@@ -364,9 +364,9 @@ class Game:
         self.tela_x = 0
 
         #MENSAGENS DAS PORTAS
-        mensagem_porta1 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/gradmensagem.png'), (700, 256))
-        mensagem_porta2 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/labhardwaremensagem.png'), (700, 256))
-        mensagem_porta3 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/anfiteatromensagem.png'), (700, 256))
+        mensagem_porta1 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/gradmensagem.png'), (700, 210))
+        mensagem_porta2 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/labhardwaremensagem.png'), (700, 210))
+        mensagem_porta3 = pygame.transform.scale(pygame.image.load('Assets/Mensagens/anfiteatromensagem.png'), (700, 210))
 
 
         while True:
@@ -494,7 +494,7 @@ class Game:
             if (player.colisao.colliderect(porta1)):
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 #DESENHA A PRIMEIRA MENSAGEM
                 self.screen.blit(mensagem_porta1, (350, 35))
@@ -508,7 +508,7 @@ class Game:
             if (player.colisao.colliderect(porta2)):
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 #DESENHA A PRIMEIRA MENSAGEM
                 self.screen.blit(mensagem_porta2, (350, 35))
@@ -522,7 +522,7 @@ class Game:
             if (player.colisao.colliderect(porta3)):   
 
                 #DESENHA A CABEÇA DE STEFAN
-                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 145))
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
                 #DESENHA A PRIMEIRA MENSAGEM
                 self.screen.blit(mensagem_porta3, (350, 35))
