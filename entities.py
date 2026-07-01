@@ -56,6 +56,8 @@ class Player(Entidade):
 
         self.pulo = 0
 
+        self.y_anterior = pos[1]
+        
         self.contagem_frames = 0
 
         self.som_dano = pygame.mixer.Sound('Assets/Sons/tomou_dano.wav')

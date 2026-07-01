@@ -24,6 +24,7 @@ class Game:
         self.som_catraca_girando = pygame.mixer.Sound('Assets/Sons/som_catraca_girando.wav')
         self.som_pegou_coletavel = pygame.mixer.Sound('Assets/Sons/som_pegou_coletável.wav')
         self.som_pegou_coletavel.set_volume(0.3)
+        self.som_moeda = pygame.mixer.Sound('Assets/Sons/som_moeda.wav')
 
         #DEFINE VARIÁVEIS INICIAIS
         self.tela_anterior = None
@@ -704,7 +705,7 @@ class Game:
                     player.processar_evento(event)
             
             #DESENHA OU NÃO O POWERUP
-            if player.colisao.colliderect(self.colisao_powerup):
+            if player.colisao.colliderect(self.colisao_powerup) and not player.desbloqueou_pulo_duplo :
                 self.som_pegou_coletavel.play()
                 player.desbloqueou_pulo_duplo = True
             
@@ -827,7 +828,7 @@ class Game:
                     player.processar_evento(event)
 
             #DESENHA OU NÃO O POWERUP
-            if player.colisao.colliderect(self.colisao_powerup):
+            if player.colisao.colliderect(self.colisao_powerup) and not player.desbloqueou_dash :
                 self.som_pegou_coletavel.play()
                 player.desbloqueou_dash = True
 
@@ -964,6 +965,8 @@ class Game:
                 player.especial += 1
                 self.colisao_carga1.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga1 = True
+                self.som_moeda.play()
+
             if self.coletou_carga1 == False:
                 self.screen.blit(self.sprite_especial_carga1, self.colisao_carga1)
             
@@ -971,6 +974,8 @@ class Game:
                 player.especial += 1
                 self.colisao_carga2.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga2 = True
+                self.som_moeda.play()
+
             if self.coletou_carga2 == False:
                 self.screen.blit(self.sprite_especial_carga2, self.colisao_carga2)
             
@@ -978,6 +983,8 @@ class Game:
                 player.especial += 1
                 self.colisao_carga3.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga3 = True
+                self.som_moeda.play()
+
             if self.coletou_carga3 == False:
                 self.screen.blit(self.sprite_especial_carga3, self.colisao_carga3)
 
@@ -1046,24 +1053,24 @@ class Game:
             #TICK NO RELÓGIO
             self.clock.tick(60)
 
+    #Mensagem de game over
+    def desenhar_game_over(self, player):
+        if player.desbloqueou_pulo_duplo :
+            pulo_duplo_txt = "PULO DUPLO - Encontrado"
+        else :
+            pulo_duplo_txt = "PULO DUPLO - Não encontrado"
+        if player.desbloqueou_dash :
+            dash_txt = "DASH - Encontrado"
+        else :
+            dash_txt = "DASH - Não encontrado"
+        cargas_txt = f"CARGAS - {player.especial}"
+        self.screen.blit(self.fonte.render(pulo_duplo_txt, True, (255, 255, 255)), (400, 360))
+        self.screen.blit(self.fonte.render(dash_txt, True, (255, 255, 255)), (400, 420))
+        self.screen.blit(self.fonte.render(cargas_txt, True, (255, 255, 255)), (400, 480))
 
     def Reiniciar(self, player):
+            # Carrega a imagem da tela de derrota
             self.tela_perdeu = pygame.transform.scale(pygame.image.load('Assets/Cenários/Tela_de_Derrota.png'), (1300, 800))
-
-            player.pos = [100, 500]
-            player.colisao.x = 100
-            player.colisao.y = 500
-            self.estado = 'jogando'
-            self.paralax = False
-
-            player.vida = 3
-            player.especial = 0
-            player.desbloqueou_pulo_duplo = False
-            player.desbloqueou_dash = False
-            player.vel_x = 0
-            player.vel_y = 0
-            player.invulnerabilidade = 0
-            player.semparalax(-8)
 
             while True:
 
@@ -1075,9 +1082,28 @@ class Game:
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_r:
+
+                            player.pos = [100, 500]
+                            player.colisao.x = 100
+                            player.colisao.y = 500
+                            self.estado = 'jogando'
+                            self.paralax = False
+
+                            player.vida = 3
+                            player.especial = 0
+                            player.desbloqueou_pulo_duplo = False
+                            player.desbloqueou_dash = False
+                            player.vel_x = 0
+                            player.vel_y = 0
+                            player.invulnerabilidade = 0
+                            player.semparalax(-8)
+
                             return self.CorredorInfinito(0, 3, 0, False, False)
-                
+
                 self.screen.blit(self.tela_perdeu, (0, 0))
+
+                #Botar o relatório
+                self.desenhar_game_over(player)
 
                 pygame.display.update()
 
