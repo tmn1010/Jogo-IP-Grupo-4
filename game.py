@@ -365,13 +365,13 @@ class Game:
             #COLISÃO COM O LIMITE ESQUERDO
             if (player.colisao.left <= self.limite_esquerdo.right):
                 player.vel_x = 0
-                player.pos[0] = self.limite_esquerdo.right - player.colisao.left
+                player.pos[0] = 0
                 player.colisao.x = player.pos[0]
 
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - player.colisao.right
+                player.pos[0] = 1200
                 player.colisao.x = player.pos[0]
 
             #DESENHA O JOGADOR
@@ -629,13 +629,13 @@ class Game:
             #COLISÃO COM O LIMITE ESQUERDO
             if (player.colisao.left <= self.limite_esquerdo.right):
                 player.vel_x = 0
-                player.pos[0] = self.limite_esquerdo.right - player.colisao.left
+                player.pos[0] = 0
                 player.colisao.x = player.pos[0]
 
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - 175
+                player.pos[0] = 1200
                 player.colisao.x = player.pos[0]
 
             #DESENHA O JOGADOR
@@ -755,13 +755,13 @@ class Game:
             #COLISÃO COM O LIMITE ESQUERDO
             if (player.colisao.left <= self.limite_esquerdo.right):
                 player.vel_x = 0
-                player.pos[0] = self.limite_esquerdo.right - player.colisao.left
+                player.pos[0] = 0
                 player.colisao.x = player.pos[0]
 
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - 175
+                player.pos[0] = 1200
                 player.colisao.x = player.pos[0]
             
             #DESENHA O JOGADOR
@@ -878,13 +878,13 @@ class Game:
             #COLISÃO COM O LIMITE ESQUERDO
             if (player.colisao.left <= self.limite_esquerdo.right):
                 player.vel_x = 0
-                player.pos[0] = self.limite_esquerdo.right - player.colisao.left
+                player.pos[0] = 0
                 player.colisao.x = player.pos[0]
 
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - 175
+                player.pos[0] = 1200
                 player.colisao.x = player.pos[0]
             
             #DESENHA O JOGADOR
@@ -1031,13 +1031,13 @@ class Game:
             #COLISÃO COM O LIMITE ESQUERDO
             if (player.colisao.left <= self.limite_esquerdo.right):
                 player.vel_x = 0
-                player.pos[0] = self.limite_esquerdo.right - player.colisao.left
+                player.pos[0] = 0
                 player.colisao.x = player.pos[0]
 
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - 175
+                player.pos[0] = 1200
                 player.colisao.x = player.pos[0]
 
             #DESENHA O JOGADOR
