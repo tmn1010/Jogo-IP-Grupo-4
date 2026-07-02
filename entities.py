@@ -61,6 +61,7 @@ class Player(Entidade):
         self.contagem_frames = 0
 
         self.som_dano = pygame.mixer.Sound('Assets/Sons/tomou_dano.wav')
+        self.som_dano.set_volume(0.8)
 
         self.coracao_cheio = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_3-3.png'), (500, 170))
         self.coracao_2_3 = pygame.transform.scale(pygame.image.load('Assets/Personagem/vida_2-3.png'), (500, 170))

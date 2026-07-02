@@ -23,8 +23,10 @@ class Game:
         #DEFINE SONS
         self.som_catraca_girando = pygame.mixer.Sound('Assets/Sons/som_catraca_girando.wav')
         self.som_pegou_coletavel = pygame.mixer.Sound('Assets/Sons/som_pegou_coletavel.wav')
-        self.som_pegou_coletavel.set_volume(10.0)
+        self.som_moeda = pygame.mixer.Sound('Assets/Sons/som_moeda.wav')
+        self.som_pegou_coletavel.set_volume(0.8)
         self.ost_principal = pygame.mixer.music.load('Assets/Sons/ostprincipal.mp3')
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
         #DEFINE VARIÁVEIS INICIAIS
@@ -369,7 +371,7 @@ class Game:
             #COLISÃO COM O LIMITE DIREITO
             if (player.colisao.right >= self.limite_direito.left):
                 player.vel_x = 0
-                player.pos[0] = self.limite_direito.left - 175
+                player.pos[0] = self.limite_direito.left - player.colisao.right
                 player.colisao.x = player.pos[0]
 
             #DESENHA O JOGADOR
