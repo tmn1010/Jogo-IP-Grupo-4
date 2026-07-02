@@ -1156,6 +1156,12 @@ class Game:
                                 boss.vida -= 1
                                 boss.invulnerabilidade = cst.INVULNERAVEL_INIMIGO
                                 boss.tomoudano = True
+
+                        if player.hitbox_atq_especial is not None and boss.vida > 0 and boss.invulnerabilidade == 0:
+                            if player.hitbox_atq_especial.colliderect(boss.colisao):
+                                boss.vida -= 1
+                                boss.invulnerabilidade = cst.INVULNERAVEL_INIMIGO
+                                boss.tomoudano = True
                         
                         # Verifica se este inimigo encostou no player
                         if boss.vida > 0 and player.invulnerabilidade == 0:
