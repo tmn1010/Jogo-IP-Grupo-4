@@ -484,6 +484,195 @@ class Inimigo_Corpo_a_Corpo(Entidade):
         self.pos[0] += deslocamento
         self.colisao.x = self.pos[0]
 
+class Boss(Entidade):
+
+    def __init__(self, pos, screen, sprites_vida):
+
+        super().__init__(pos)
+        self.screen = screen
+        self.vida = 6
+        self.sprites_vida = sprites_vida
+
+        #DEFINE O SPRITE ATUAL DE MOVIMENTO DO INIMIGO
+        self.sprite_atual = None
+
+        self.colisao = pygame.Rect(self.pos[0], self.pos[1], 160, 170)
+        self.invulnerabilidade = 0
+        self.y_anterior = self.pos[1]
+
+        #BOOLEANA QUE MANTE O INIMIGO ATACANDO
+        self.atacando = False
+        self.atacando_contador = 20
+        self.atacou = False
+
+        #VARIÁVES QUE PARAM O INIMIGO QUANDO ELE TOMA UM DANO
+        self.tomoudano = False
+        self.cooldown = 100
+
+        #BOOLEANA QUE INVERTE A IMAGEM DO INIMIGO CONFORME A DIREÇÃO DO INIMIGO
+        self.direita = False
+
+        #CONTADOR PARA O SPRITE ANDANDO DO INIMIGO
+        self.contador_inimigo = 0
+
+        #DEFINE OS SPRITES DO INIMIGO ANDANDO
+        self.sprites_andando = [
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_01.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_02.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_03.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_04.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_05.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_06.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_07.png"), (240, 290)),
+            pygame.transform.scale(pygame.image.load("Assets/Boss/boss_andando_08.png"), (240, 290))
+
+        ]
+
+        #DEFINE OS SPRITES DO INIMIGO ATACANDO
+        self.sprite_atacando = pygame.transform.scale(pygame.image.load('Assets/Inimigo/inimigo-atacando.png'), (280, 230))
+
+    def atualizar(self, player, plataformas):
+        # Se a vida for 0, ele morre e não faz mais nada
+        if self.vida <= 0:
+            return
+
+        #Persegue o jogador no eixo X
+        if self.pos[0] < player.pos[0]:
+            self.vel_x = cst.VEL_BOSS
+            self.direita = True
+
+            #TEMPORIZADOR QUE PARA O INIMIGO QUANDO ELE TOMA DANO
+            if ((self.tomoudano == True) or (self.atacou == True)) and (self.cooldown > 0):
+                self.vel_x = 0
+                self.cooldown -= 10
+
+            else:
+                self.atacou = False
+                self.tomoudano = False
+                self.cooldown = 100
+
+        elif self.pos[0] > player.pos[0]:
+            
+            self.vel_x = -cst.VEL_BOSS
+            self.direita = False
+
+            #TEMPORIZADOR QUE PARA O INIMIGO QUANDO ELE TOMA DANO
+            if ((self.tomoudano == True) or (self.atacou == True)) and (self.cooldown > 0):
+                self.vel_x = 0
+                self.cooldown -= 10
+
+            else:
+                self.atacou = False
+                self.tomoudano = False
+                self.cooldown = 100
+
+        # Aplica gravidade para ele não voar
+        self.vel_y += cst.GRAVIDADE
+        
+        self.y_anterior = self.pos[1]
+        self.pos[0] += self.vel_x
+        self.pos[1] += self.vel_y
+        
+        self.colisao.x = self.pos[0]
+        self.colisao.y = self.pos[1]
+
+        # Colisão do inimigo com o chão
+        for plataforma in plataformas:
+            pe_anterior = self.y_anterior + self.colisao.height
+            pe_atual = self.colisao.bottom
+            if self.colisao.right > plataforma.left and self.colisao.left < plataforma.right and pe_anterior <= plataforma.top and pe_atual >= plataforma.top and self.vel_y >= 0:
+                self.vel_y = 0
+                self.pos[1] = plataforma.top - self.colisao.height
+                self.colisao.y = self.pos[1]
+                break
+
+        # Reduz o tempo de invulnerabilidade
+        if self.invulnerabilidade > 0:
+            self.invulnerabilidade -= 1
+
+    def desenhar(self):
+        if self.vida > 0:
+
+            # Efeito de piscar quando toma dano
+            if self.invulnerabilidade > 0 and (self.invulnerabilidade // 5) % 2 == 0:
+
+                #Inimigo dá uma parada quando toma dano
+                if self != 'player':
+                    cst.VEL_INIMIGO = 0
+
+                pass 
+            else:
+                #Velocidade volta ao normal depois de parar de piscar
+                if self != 'player' and self.invulnerabilidade == 0:
+                    cst.VEL_INIMIGO = 3
+
+                #SOMA O CONTADOR PARA MUDAR O SPRITE ANDANDO DO INIMIGO
+                self.contador_inimigo += 0.14
+
+                #CONTROLE PARA NÃO TER OUT OF INDEX
+                if (self.contador_inimigo > 3):
+                    self.contador_inimigo = 0
+
+                #DESENHA O SPRITE DO INIMIGO
+                if (self.direita == False):
+                    
+                    #VERIFICA SE O INIMIGO ESTÁ ATACANDO OU NÃO
+                    if (self.atacando == True and self.atacando_contador > 0):
+                        self.sprite_atual = pygame.transform.flip(self.sprite_atacando, True, False)
+                        self.atacando_contador -= 1
+
+                    elif (self.atacando_contador <= 0):
+                        self.atacando_contador = 20
+                        self.atacando = False
+
+                    else:
+                        self.sprite_atual = pygame.transform.flip(self.sprites_andando[int(self.contador_inimigo)], True, False)
+
+                else:
+
+                    #VERIFICA SE O INIMIGO ESTÁ ATACANDO OU NÃO
+                    if (self.atacando == True and self.atacando_contador > 0):
+                        self.sprite_atual = self.sprite_atacando
+                        self.atacando_contador -= 1
+
+                    elif (self.atacando_contador <= 0):
+                        self.atacando_contador = 20
+                        self.atacando = False
+
+                    else:
+                        self.sprite_atual = self.sprites_andando[int(self.contador_inimigo)]
+
+                pos_x = self.pos[0] + (self.colisao.width / 2) - (self.sprite_atual.get_width() / 2)
+                pos_y = self.pos[1] + 13
+
+                if self.atacando == True:
+                    self.screen.blit(self.sprite_atual, (pos_x, pos_y - 20))
+
+                else:
+                    self.screen.blit(self.sprite_atual, (pos_x, pos_y - 100))
+
+            # Lógica da Barra de Vida Flutuante
+            if 4 < self.vida <= 6:
+                indice_sprite = 0
+
+            if 2 < self.vida <= 4:
+                indice_sprite = 1 
+
+            if self.vida <= 2:
+                indice_sprite = 2  
+
+            sprite = self.sprites_vida[indice_sprite]
+
+            # Centraliza a barra acima do inimigo
+            pos_x = self.pos[0] + (self.colisao.width / 2) - (sprite.get_width() / 2)
+            pos_y = self.pos[1] - 60 
+            
+            self.screen.blit(sprite, (pos_x - 10, pos_y - 50))
+                
+    def aplicar_paralax(self, deslocamento):
+        self.pos[0] += deslocamento
+        self.colisao.x = self.pos[0]
+
 class Inimigo_Longa_Distancia(Entidade):
     def __init__(self, pos, screen, vida):
         super().__init__(pos)

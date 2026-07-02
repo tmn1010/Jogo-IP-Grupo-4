@@ -4,7 +4,7 @@ import random
 from pygame.locals import *
 import sys
 import constantes as cst
-from entities import Player, Inimigo_Corpo_a_Corpo
+from entities import Player, Inimigo_Corpo_a_Corpo, Boss
 
 #INICIA O PYGAME
 pygame.init()
@@ -161,6 +161,8 @@ class Game:
     def MenuInicial(self):
 
         while True:
+
+            return self.Anfiteatro()
 
             #DESENHA A TELA DO MENU
             self.screen.blit(self.tela_menu, (0, 0))
@@ -915,12 +917,37 @@ class Game:
         self.colisao_carga3 = self.sprite_especial_carga3.get_rect(topleft = (1100, 600))
         self.coletou_carga3 = False
 
-        self.colisao_voltar_corredor = pygame.Rect(1290, 500, 100, 100)
+        #VARIÁVEIS QUE CRIAM AS MENSAGENS DO BOSS
+        contagem_frames_humberto = 0
+        contagem_boss = 0
+
+        #SPRITE DA CABEÇA DE HUMBERTO
+        cabeca_humberto = [
+            pygame.transform.flip(pygame.transform.scale(pygame.image.load('Assets/Mensagens/humberto.png'), (150, 150)), True, False),
+            pygame.transform.flip(pygame.transform.scale(pygame.image.load('Assets/Mensagens/humberto2.png'), (150, 150)), True, False)
+
+        ]
+
+        #SPRITE DA CABEÇA DA VIRGINIANA
+        cabeca_virginiana = pygame.transform.flip(pygame.transform.scale(pygame.image.load('Assets/Mensagens/virginiana.png'), (130, 130)), True, False)
+
+
+        #MENSAGENS
+        mensagens_boss = [
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/boss1.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/boss2.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/boss3.png'), (700, 210)),
+            pygame.transform.scale(pygame.image.load('Assets/Mensagens/boss4.png'), (700, 210))
+        ]
 
         #DEFINE O OBJETO DO PLAYER
         player = Player((100, 510), self.screen, vida, especial)
         player.desbloqueou_pulo_duplo = desbloqueou_pulo_duplo
         player.desbloqueou_dash = desbloqueou_dash
+
+        #VERIFICA SE O BOSS ESTÁ VIVO
+        boss_morto = False
+        boss_spawnou = False
 
         while True:
 
@@ -1010,9 +1037,87 @@ class Game:
             if player.cooldown_atq > 0:
                 player.cooldown_atq -= 1
 
-            #VOLTA PARA O CORREDOR INFINITO
-            if player.colisao.colliderect(self.colisao_voltar_corredor):
-                return self.CorredorInfinito(self.valor_salvo_tela_x, player.vida, player.especial, player.desbloqueou_pulo_duplo, player.desbloqueou_dash)
+            #VERIFICA SE TODAS AS CARGA FORAM COLETADAS
+            if (self.coletou_carga3 == True):
+                
+                contagem_boss += 0.05
+
+                #SOMADOR QUE FAZ A ANIMAÇÃO DE HUMBERTO
+                contagem_frames_humberto += 0.1
+
+                #FAZ UM LOOP NOS SPRITES DA CABEÇA DE HUMBERTO
+                if contagem_frames_humberto >= len(cabeca_humberto):
+                    contagem_frames_humberto = 0
+
+                #INICIA AS MENSAGENS DO BOSS
+                if contagem_boss > 2 and contagem_boss < 10:
+
+                    #DESENHA A CABEÇA DE VIRGINIANA
+                    self.screen.blit(cabeca_virginiana, (1060, 112))
+                    
+                    #DESENHA A PRIMEIRA MENSAGEM
+                    self.screen.blit(mensagens_boss[0], (350, 35))
+
+
+                #SEGUNDA MENSAGEM
+                if contagem_boss > 10 and contagem_boss < 18:
+
+                    #DESENHA A CABEÇA DE HUMBERTO
+                    self.screen.blit(cabeca_humberto[int(contagem_frames_humberto)], (1040, 100))
+
+                    self.screen.blit(mensagens_boss[1], (350, 35))
+
+                #TERCEIRA MENSAGEM
+                if contagem_boss > 18 and contagem_boss < 26:
+
+                    #DESENHA A CABEÇA DE VIRGINIANA
+                    self.screen.blit(cabeca_virginiana, (1060, 112))
+                
+                    self.screen.blit(mensagens_boss[2], (350, 35))
+
+                #QUARTA MENSAGEM
+                if contagem_boss > 26 and contagem_boss < 34:
+
+                    #DESENHA A CABEÇA DE HUMBERTO
+                    self.screen.blit(cabeca_humberto[int(contagem_frames_humberto)], (1040, 100))
+                
+                    self.screen.blit(mensagens_boss[3], (350, 35))
+
+                #SPAWN DO BOSS
+                if contagem_boss > 4:
+
+                    if boss_morto == False:
+
+                        #SPAWNA O BOSS APENAS UMA VEZ
+                        if boss_spawnou == False:
+
+                            #DEFINE A BOSS
+                            boss = Boss([1000, 530], self.screen, self.sprites_vida_inimigo)
+                            boss_spawnou = True
+
+                        boss.atualizar(player, self.plataformas)
+
+                        # Verifica se o soco do player acertou este inimigo
+                        if player.hitbox_atq is not None and boss.vida > 0 and boss.invulnerabilidade == 0:
+                            if player.hitbox_atq.colliderect(boss.colisao):
+                                boss.vida -= 1
+                                boss.invulnerabilidade = cst.INVULNERAVEL_INIMIGO
+                                boss.tomoudano = True
+                        
+                        # Verifica se este inimigo encostou no player
+                        if boss.vida > 0 and player.invulnerabilidade == 0:
+                            if boss.colisao.colliderect(player.colisao):
+                                player.vida -= 1
+                                player.invulnerabilidade = cst.INVULNERAVEL
+                                player.som_dano.play()
+
+                                #MODIFICA O SPRITE DO INIMIGO
+                                boss.atacando = True
+                                boss.atacou = True
+                        
+                        # Remove o inimigo da lista se ele morrer (Limpa a memória do jogo!)
+                        if boss.vida <= 0:
+                            boss_morto = True
 
             #VERIFICA A COLISÃO DO PERSONAGEM
             for plataforma in self.plataformas:
@@ -1043,6 +1148,9 @@ class Game:
             #DESENHA O JOGADOR
             if self.estado == 'jogando':
                 player.desenhar()
+
+                if (boss_spawnou):
+                    boss.desenhar()
 
             #VERIFICA SE O JOGADOR MORREU
             if player.vida <= 0:
