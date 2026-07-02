@@ -964,7 +964,7 @@ class Game:
                 player.especial += 1
                 self.colisao_carga1.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga1 = True
-                self.som_moeda.play()
+                self.som_pegou_coletavel.play()
 
             if self.coletou_carga1 == False:
                 self.screen.blit(self.sprite_especial_carga1, self.colisao_carga1)
@@ -973,7 +973,7 @@ class Game:
                 player.especial += 1
                 self.colisao_carga2.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga2 = True
-                self.som_moeda.play()
+                self.som_pegou_coletavel.play()
 
             if self.coletou_carga2 == False:
                 self.screen.blit(self.sprite_especial_carga2, self.colisao_carga2)
@@ -982,7 +982,7 @@ class Game:
                 player.especial += 1
                 self.colisao_carga3.top = 700 #Deixa o retângulo da carga abaixo do chão, impedindo mais de uma colisão
                 self.coletou_carga3 = True
-                self.som_moeda.play()
+                self.som_pegou_coletavel.play()
 
             if self.coletou_carga3 == False:
                 self.screen.blit(self.sprite_especial_carga3, self.colisao_carga3)
