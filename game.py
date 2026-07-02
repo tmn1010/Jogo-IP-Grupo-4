@@ -716,6 +716,16 @@ class Game:
             
             #DESENHA A MENSAGEM DE TUTORIAL
             self.screen.blit(msg_grad05, (350, 35))
+
+            #SOMADOR QUE FAZ A ANIMAÇÃO DE STEFAN
+            self.contagem_frames_stefan += 0.1
+
+            #FAZ UM LOOP NOS SPRITES DA CABEÇA DE STEFAN
+            if self.contagem_frames_stefan >= len(self.cabeca_stefan):
+                self.contagem_frames_stefan = 0
+
+            #DESENHA A CABEÇA DE STEFAN
+            self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
             
             #DESENHA OU NÃO O POWERUP
             if player.colisao.colliderect(self.colisao_powerup) and not player.desbloqueou_pulo_duplo :
@@ -843,6 +853,16 @@ class Game:
                 
             #DESENHA A MENSAGEM DE TUTORIAL
             self.screen.blit(msg_labhardware, (350, 35))
+
+            #SOMADOR QUE FAZ A ANIMAÇÃO DE STEFAN
+            self.contagem_frames_stefan += 0.1
+
+            #FAZ UM LOOP NOS SPRITES DA CABEÇA DE STEFAN
+            if self.contagem_frames_stefan >= len(self.cabeca_stefan):
+                self.contagem_frames_stefan = 0
+
+            #DESENHA A CABEÇA DE STEFAN
+            self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
             #DESENHA OU NÃO O POWERUP
             if player.colisao.colliderect(self.colisao_powerup) and not player.desbloqueou_dash :
@@ -1002,9 +1022,6 @@ class Game:
 
                     player.processar_evento(event)
 
-            #DESENHA A MENSAGEM DE TUTORIAL
-            self.screen.blit(msg_anfiteatro, (350, 35))
-
 
             #DESENHA OU NÃO AS CARGAS
             if player.colisao.colliderect(self.colisao_carga1):
@@ -1054,6 +1071,21 @@ class Game:
             #CONTADOR PARA NÃO TER ATAQUE INFINITO
             if player.cooldown_atq > 0:
                 player.cooldown_atq -= 1
+
+            #DESENHA O TUTORIAL DESTA SALA
+            if (self.coletou_carga3 == False):
+                #DESENHA A MENSAGEM DE TUTORIAL
+                self.screen.blit(msg_anfiteatro, (350, 35))
+
+                #SOMADOR QUE FAZ A ANIMAÇÃO DE STEFAN
+                self.contagem_frames_stefan += 0.1
+
+                #FAZ UM LOOP NOS SPRITES DA CABEÇA DE STEFAN
+                if self.contagem_frames_stefan >= len(self.cabeca_stefan):
+                    self.contagem_frames_stefan = 0
+
+                #DESENHA A CABEÇA DE STEFAN
+                self.screen.blit(self.cabeca_stefan[int(self.contagem_frames_stefan)], (1040, 106))
 
             #VERIFICA SE TODAS AS CARGA FORAM COLETADAS
             if (self.coletou_carga3 == True):
